@@ -1,12 +1,10 @@
 package Main;
 
-import Grafo.Grafo;
-import Persistencia.Persistencia;
+import Graph.Graph;
+import Persistence.Persistence;
 
 import java.io.*;
 import java.lang.Math;
-
-import java.util.*;
 
 
 public class Main {
@@ -16,7 +14,7 @@ public class Main {
     public static void  main(String[] args) throws IOException, ClassNotFoundException {
         System.out.println("Hello Endava");
 
-       Grafo migrafito= new Grafo();
+       Graph migrafito= new Graph();
 
 
 
@@ -40,9 +38,9 @@ public class Main {
         //migrafito.verNodos();
        // migrafito.verAdyacencia();
 
-        Persistencia pers = new Persistencia();
+        Persistence pers = new Persistence();
         pers.setGrafo(migrafito);
-        pers.serializar("grafo.txt");
+        pers.serializar("graph.txt");
         pers.getGrafo().verAdyacencia();
 
 

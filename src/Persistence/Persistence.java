@@ -1,27 +1,27 @@
-package Persistencia;
+package Persistence;
 
-import Grafo.Grafo;
+import Graph.Graph;
 
 import java.io.*;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-public class Persistencia {
+public class Persistence {
 
-    private Grafo grafo;
+    private Graph graph;
 
-    public Grafo getGrafo() {
-        return grafo;
+    public Graph getGrafo() {
+        return graph;
     }
 
-    public void setGrafo(Grafo grafo) {
-        this.grafo = grafo;
+    public void setGrafo(Graph graph) {
+        this.graph = graph;
     }
 
     public void serializar(String filename) throws IOException, ClassNotFoundException {
         FileOutputStream fileOutputStream = new FileOutputStream("nocomprimido.txt");
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(this.grafo);
+        objectOutputStream.writeObject(this.graph);
         fileOutputStream.close();
         comprimir(filename);
 
@@ -65,7 +65,7 @@ public class Persistencia {
     public void deserializar(String filename) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(filename);
         ObjectInputStream ois = new ObjectInputStream(fis);
-        this.grafo = (Grafo) ois.readObject();
+        this.graph = (Graph) ois.readObject();
         fis.close();
 
         File fichero = new File(filename);
