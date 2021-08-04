@@ -1,11 +1,12 @@
 package Grafo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Grafo {
+public class Grafo implements Serializable {
 
 
 
@@ -15,7 +16,9 @@ public class Grafo {
 
     // = new ArrayList<>();
 
+    /*
 
+     */
     public Grafo(List<String> nodos, Map<String, Map> adyacencia) {
         this.nodos = nodos;
         this.adyacencia = adyacencia;
