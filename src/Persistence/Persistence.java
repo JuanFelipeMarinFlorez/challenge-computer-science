@@ -3,6 +3,7 @@ package Persistence;
 import Graph.Graph;
 
 import java.io.*;
+import java.util.Scanner;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -47,17 +48,27 @@ public class Persistence {
 
     public void descomprimir(String filename) throws IOException, ClassNotFoundException {
 
-        FileInputStream fis=new FileInputStream(filename);
-        FileOutputStream fos=new FileOutputStream("descomprimido.txt");
-        InflaterInputStream iis=new InflaterInputStream(fis);
-        int info;
-        while((info=iis.read())!=-1)
-        {
-            fos.write(info);
+        File tempFile = new File(filename);
+        if(!tempFile.exists()){
+            this.graph=null;
+
         }
-        fos.close();
-        iis.close();
-        deserializar("descomprimido.txt");
+        else{
+            FileInputStream fis=new FileInputStream(filename);
+            FileOutputStream fos=new FileOutputStream("descomprimido.txt");
+            InflaterInputStream iis=new InflaterInputStream(fis);
+            int info;
+            while((info=iis.read())!=-1)
+            {
+                fos.write(info);
+            }
+            fos.close();
+            iis.close();
+            deserializar("descomprimido.txt");
+
+        }
+
+
 
 
     }
@@ -72,4 +83,26 @@ public class Persistence {
         fichero.delete();
     }
 
+    public Graph createGraphByFile(String filename) throws FileNotFoundException {
+        Graph graph= new Graph();
+        Scanner input = new Scanner(new File(filename));
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            String[] array = line.split(",");
+            if(array.length==1){
+                graph.addNode(line.replace(" ",""));
+            }
+            else if(array.length==3){
+                graph.addEdge(array[0],Integer.valueOf(array[2].replace(" ","")),array[1]);
+            }
+
+        }
+        input.close();
+
+        return graph;
+
+    }
+
 }
+
+
