@@ -11,50 +11,74 @@ public class Main {
 
 
     public static void  main(String[] args) throws IOException, ClassNotFoundException {
-        System.out.println("Hello Endava");
 
-       Graph migrafito= new Graph();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        int selection=-1;
+        String answer, initalNode, finalNode;
+        Persistence pers = new Persistence();
+        Graph graph = null;
+        boolean exit=false;
 
+        pers.descomprimir("graph.txt");
+        if(pers.getGrafo()!=null){
+           graph=pers.getGrafo();
+        }
+        while(!exit){
 
+            while(selection < 1 || selection>4 ){
 
-       for (int i=1; i<10; i++){
-           migrafito.addNode("n"+String.valueOf(i));
+                System.out.println("Hello Endava");
+                System.out.println("Computer Science challenge");
+                System.out.println("by Juan Felipe Marin");
+                System.out.println("- - - - - - - - -");
+                System.out.println("1. Open graph from file and serialize.");
+                System.out.println("2. find the best path between two.");
+                System.out.println("3. Watch current graph.");
+                System.out.println("4. Exit.");
+                answer = reader.readLine();
+                selection= Integer.valueOf(answer.replace(" ",""));
 
-       }
+            }
 
-       /*migrafito.addVertice("n1",2,"n2");
-       migrafito.addVertice("n1",3,"n3");
-       migrafito.addVertice("n2",5,"n4");
-       migrafito.addVertice("n2",2,"n5");
-       migrafito.addVertice("n3",5,"n5");
-       migrafito.addVertice("n4",1,"n5");
-       migrafito.addVertice("n4",2,"n6");
-       migrafito.addVertice("n5",4,"n6");*/
+            if(selection==1){
+                System.out.println("Please write the file where the graph is");
+                answer = reader.readLine();
+                graph= pers.createGraphByFile(answer);
+                pers.setGrafo(graph);
+                pers.serializar("graph.txt");
+                selection=-1;
 
+            }
+            if(selection==2){
+                System.out.println("Please write the initial node");
+                initalNode = reader.readLine();
+                System.out.println("Please write the final node");
+                finalNode = reader.readLine();
 
-        for (int i=0; i<15; i++){
-            int numeroRandome = (int)(Math.random()*(10)+1);
-            int numeroRandome2 = (int)(Math.random()*(10)+1);
-            if(numeroRandome!=numeroRandome2)
-            migrafito.addEdge("n"+String.valueOf(numeroRandome),
-                    i,"n"+String.valueOf(numeroRandome2));
+                System.out.println("Path: \n");
+                System.out.println("");
+                graph.dijkstra(initalNode,finalNode);
+                System.out.println("");
+                selection=-1;
 
+            }
+            if(selection==3){
+                if(graph.getNodes().size()>0){
+                    graph.seeAdjacency();
+                }
+                else{
+                    System.out.println("There is not current graph.");
+                }
+
+                selection=-1;
+            }
+            if(selection==4){
+                exit=true;
+            }
 
         }
 
 
-
-        System.out.println(migrafito.getNodes().toArray()[0]);
-         migrafito.seeAdjacency();
-
-        migrafito.dijkstra("n1","n9");
-        //migrafito.verNodos();
-       // migrafito.verAdyacencia();
-
-        Persistence pers = new Persistence();
-        pers.setGrafo(migrafito);
-        pers.serializar("graph.txt");
-        //pers.getGrafo().seeAdjacency();
 
 
 

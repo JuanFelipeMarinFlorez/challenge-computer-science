@@ -2,6 +2,7 @@ package Graph;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public class Graph implements Serializable {
 
@@ -221,7 +222,7 @@ public class Graph implements Serializable {
             }
         }
         else{
-            path.add("No se puede llegar a los nodos");
+            path.add("There is no path");
         }
         return path;
     }
@@ -236,6 +237,85 @@ public class Graph implements Serializable {
     public int grade(String node){
         return adjacency.get(node).size();
 
+    }
+
+    /*
+    Function name: findAllNodeVisitedPath
+    Description: This method allows you find a path when you visit all the node once
+    Parameters: It doesn't receive parameters
+    Return: A list of nodes (String) that describe the path
+     */
+
+    public Vector<String> findAllNodeVisitedPath(){
+        Vector<String> path = new Vector<String>();
+        Map<String, Vector<String>> referencesNodes= new HashMap<String,Vector<String>>();
+        Vector<String> pendingNodes =  new Vector<String>();
+        int tam=this.getNodes().size();
+        int nInfinite=-10000000;
+        boolean max=false;
+        String node;
+        // Here we put the lower value of weights and add all the nodes in the pending nodes queue
+        for(int i=0; i<tam; i++){
+            Vector<String> vector = new Vector<String>();
+            referencesNodes.put((String) this.nodes.toArray()[i],vector);
+            pendingNodes.add((String) this.nodes.toArray()[i]);
+        }
+        node = pendingNodes.firstElement();
+        pendingNodes.remove(node);
+        referencesNodes.get(node).add(node);
+        Scanner scanner = new Scanner(System.in);
+        while(!pendingNodes.isEmpty()){
+            System.out.println(referencesNodes);
+            System.out.println(pendingNodes);
+            System.out.println(node);
+            //String studentName = scanner.nextLine();
+            Map<String, Integer> edgeCopy = (Map)this.adjacency.get(node);
+            int maxWeight=-1;
+            String maxNode="N/A";
+
+            for(Map.Entry m:edgeCopy.entrySet()) {
+                System.out.println(m);
+                // we check if the node isn't in the list of nodes already visited
+                if(!referencesNodes.get(node).contains(m.getKey())){
+                    // we check if the number of node visited is higher than before
+                    if(referencesNodes.get(node).size()+1 > referencesNodes.get(m.getKey()).size() ){
+
+                        referencesNodes.get(m.getKey()).removeAllElements();
+                        referencesNodes.get(m.getKey()).addAll(referencesNodes.get(node));
+                        referencesNodes.get(m.getKey()).add((String)m.getKey());
+                        if(referencesNodes.get(m.getKey()).size()==tam){
+                            return referencesNodes.get(m.getKey());
+                        }
+                    }
+                    if(!pendingNodes.contains(m.getKey()) && !referencesNodes.get(node).contains(m.getKey())){
+                        pendingNodes.add((String)m.getKey());
+                    }
+                }
+            }
+            // In this for we check every thw weight of every node
+            for (Map.Entry m: referencesNodes.entrySet()){
+
+                if(referencesNodes.get(m.getKey()).size()>maxWeight && !referencesNodes.get(node).contains(m.getKey())){
+                    max=true;
+                    maxWeight=referencesNodes.get(m.getKey()).size();
+                    maxNode=(String)m.getKey();
+                }
+
+            }
+            if(max){
+                pendingNodes.remove(maxNode);
+                pendingNodes.insertElementAt(maxNode,0);
+
+            }
+
+
+            if(!pendingNodes.isEmpty()){
+                node = pendingNodes.firstElement();
+                pendingNodes.remove(node);
+            }
+
+        }
+        return path;
     }
 
 
