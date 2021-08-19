@@ -4,6 +4,7 @@ import Graph.Graph;
 import Persistence.Persistence;
 
 import java.io.*;
+import java.util.Vector;
 
 
 public class Main {
@@ -23,18 +24,20 @@ public class Main {
         if(pers.getGrafo()!=null){
            graph=pers.getGrafo();
         }
+
         while(!exit){
 
-            while(selection < 1 || selection>4 ){
+            while(selection < 1 || selection>5 ){
 
                 System.out.println("Hello Endava");
                 System.out.println("Computer Science challenge");
                 System.out.println("by Juan Felipe Marin");
                 System.out.println("- - - - - - - - -");
                 System.out.println("1. Open graph from file and serialize.");
-                System.out.println("2. find the best path between two.");
-                System.out.println("3. Watch current graph.");
-                System.out.println("4. Exit.");
+                System.out.println("2. find the best path between two nodes.");
+                System.out.println("3. find the best path between all the nodes.");
+                System.out.println("4. Watch current graph.");
+                System.out.println("5. Exit.");
                 answer = reader.readLine();
                 selection= Integer.valueOf(answer.replace(" ",""));
 
@@ -63,6 +66,18 @@ public class Main {
 
             }
             if(selection==3){
+
+                System.out.println("Path: \n");
+                System.out.println("");
+                Vector<String> logout=graph.findAllNodeVisitedPath();
+                for (String a: logout){
+                    System.out.println(a);
+                }
+                System.out.println("");
+                selection=-1;
+
+            }
+            if(selection==4){
                 if(graph.getNodes().size()>0){
                     graph.seeAdjacency();
                 }
@@ -72,7 +87,7 @@ public class Main {
 
                 selection=-1;
             }
-            if(selection==4){
+            if(selection==5){
                 exit=true;
             }
 
