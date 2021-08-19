@@ -35,7 +35,7 @@ public class Main {
                 System.out.println("- - - - - - - - -");
                 System.out.println("1. Open graph from file and serialize.");
                 System.out.println("2. find the best path between two nodes.");
-                System.out.println("3. find the best path between all the nodes.");
+                System.out.println("3. find the best path  that go  through all nodes.");
                 System.out.println("4. Watch current graph.");
                 System.out.println("5. Exit.");
                 answer = reader.readLine();
